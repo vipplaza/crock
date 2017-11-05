@@ -1,14 +1,14 @@
 import fs from 'await-fs'
-
+const distanceFromHereToCallee = '../../../'
 export async function getDefinitions(){
-  var list = unique(flatten(await dig('./')))
-  return list.map(path_to_def=> require(`../${path_to_def}`) )
+  var list = unique(flatten(await dig('.')))
+  return list.map(path_to_def=> require(`${distanceFromHereToCallee}${path_to_def}`) )
 }
 
 async function dig(cd){
   const lstat = await fs.lstat(cd)
   const isDirectory = lstat.isDirectory()
-  if(isDirectory && cd.indexOf('node_modules') === -1){
+  if(isDirectory && cd.indexOf('node_modules') === -1 && cd.indexOf('.git') === -1){
     const list = await fs.readdir(cd)
     const res = list.map(li=>{
       if (cd.indexOf('definitions') > 0) {

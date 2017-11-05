@@ -1,0 +1,1 @@
+$(npm bin)/nodemon $(npm bin)/../crock/index.js

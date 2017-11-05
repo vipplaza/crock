@@ -7,9 +7,9 @@ exports.getDefinitions = undefined;
 
 let getDefinitions = exports.getDefinitions = (() => {
   var _ref = _asyncToGenerator(function* () {
-    var list = unique(flatten((yield dig('./'))));
+    var list = unique(flatten((yield dig('.'))));
     return list.map(function (path_to_def) {
-      return require(`../${path_to_def}`);
+      return require(`${distanceFromHereToCallee}${path_to_def}`);
     });
   });
 
@@ -22,7 +22,7 @@ let dig = (() => {
   var _ref2 = _asyncToGenerator(function* (cd) {
     const lstat = yield _awaitFs2.default.lstat(cd);
     const isDirectory = lstat.isDirectory();
-    if (isDirectory && cd.indexOf('node_modules') === -1) {
+    if (isDirectory && cd.indexOf('node_modules') === -1 && cd.indexOf('.git') === -1) {
       const list = yield _awaitFs2.default.readdir(cd);
       const res = list.map(function (li) {
         if (cd.indexOf('definitions') > 0) {
@@ -57,6 +57,9 @@ var _awaitFs2 = _interopRequireDefault(_awaitFs);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+const distanceFromHereToCallee = '../../../';
+
 
 function flatten(array, mutable) {
   var toString = Object.prototype.toString;

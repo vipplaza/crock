@@ -1,6 +1,6 @@
 {
   "name": "crock",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "node-schedule wrapping DSL/Process",
   "main": "index.js",
   "repository": {
@@ -9,6 +9,9 @@
   },
   "scripts": {
     "build": "babel src --out-dir dist"
+  },
+  "bin": {
+    "crock": "bin/entrypoint.sh"
   },
   "author": "shogochiai <shogo1104@gmail.com>",
   "license": "MIT",
