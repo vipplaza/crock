@@ -1,10 +1,16 @@
-# bettercron
+# crock
+High time-resolution cron with Web application framework flavor
 
-## behavior
-- sec level cron by using `node-schedule`
-- `definitions` folder auto detecting design
-- `crock` command runs scheduler daemon
+## How to use
+- `npm i --save crock`
+- Write `./definitions/foo.js` with `cron rule` and a `function`
+- Just `$(npm bin)/crock`, process will be observed by supervisor(nodemon)
+- You can integrate slack. Config is `crock.yaml`
+
+## How it works
+- Cron rule is based on [node-schedule](https://github.com/node-schedule/node-schedule) (sec + cron_rule)
+- You can write all tasks on `*/definitions` folder, and `*/definitions` folder will be auto-loaded
+- `$(npm bin)/crock` command runs scheduler daemon
 
 ## future work
-- easy slack integration
 - job stats

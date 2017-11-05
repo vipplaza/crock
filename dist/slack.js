@@ -9,8 +9,10 @@ var _client = require('@slack/client');
 
 var _nodeYaml = require('node-yaml');
 
+const distanceFromHereToCallee = '../../../';
+
 function send(msg, yaml_path) {
-  const yaml = (0, _nodeYaml.readSync)(yaml_path);
+  const yaml = (0, _nodeYaml.readSync)(`${distanceFromHereToCallee}${yaml_path}`);
   const url = process.env.SLACK_URL || yaml.slackUrl;
   const opts = {
     username: yaml.username || 'crock bot',

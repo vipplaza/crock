@@ -1,8 +1,9 @@
 import { IncomingWebhook } from '@slack/client'
 import { readSync } from 'node-yaml'
+const distanceFromHereToCallee = '../../../'
 
 export function send(msg, yaml_path){
-  const yaml = readSync(yaml_path)
+  const yaml = readSync(`${distanceFromHereToCallee}${yaml_path}`)
   const url = process.env.SLACK_URL || yaml.slackUrl
   const opts = {
     username: yaml.username || 'crock bot',

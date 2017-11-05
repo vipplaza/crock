@@ -1,10 +1,9 @@
 import program from 'commander'
 import Thread from '~/thread'
 
-
 program
   .version('0.0.1')
-  .option('-y --yaml [path]', 'Specify yaml path', './crock.yaml')
+  .option('-y --yaml [path]', 'Specify yaml path', 'crock.yaml')
   .parse(process.argv);
 
 Thread.run(program.yaml)
