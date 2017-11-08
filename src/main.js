@@ -8,7 +8,7 @@ program
 
 Thread.run(program.yaml)
 .then(res=>{
-  console.log(res.map(d=> `${d[2]} ${d[0]}` ).join("\n"))
+  console.log(res.map(d=> `${d.filename} ${d.expr} ${d.description}` ).join("\n"))
 })
 .catch(err=>{
   console.error(err)

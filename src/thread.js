@@ -1,5 +1,5 @@
 import schedule from 'node-schedule'
-import { getDefinitions } from './definitionReader'
+import { getDefinitions } from './definition_reader'
 import { send } from './slack'
 
 
@@ -7,9 +7,9 @@ export default class Thread {
   static async run(yaml_path){
     const definitions = await getDefinitions()
     definitions.map(def=> {
-      schedule.scheduleJob(def[0], _=>{
-        def[1]()
-        send(def[2], yaml_path)
+      schedule.scheduleJob(def.expr, _=>{
+        def.task()
+        send(def.filename, yaml_path)
       })
     })
     return definitions
