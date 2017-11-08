@@ -12,6 +12,8 @@ export default class Thread {
         send(def.filename, yaml_path)
       })
     })
+
+    // TODO: Run server and show /documentation
     return definitions
   }
 }
