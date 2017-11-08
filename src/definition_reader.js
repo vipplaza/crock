@@ -1,29 +1,31 @@
 import fs from 'await-fs'
 const distanceFromHereToCallee = '../../../'
 export async function getDefinitions(){
-  var list = unique(flatten(await dig('.')))
-  return list.map(path_to_def=> require(`${distanceFromHereToCallee}${path_to_def}`) )
+  const list = await flatMap(await traverse('.'))
+  const def_paths = list.filter(path=> path.indexOf("definitions") > 0 )
+  return def_paths.map(def_path=> require(`${distanceFromHereToCallee}${def_path}`) )
 }
 
-async function dig(cd){
+async function traverse(cd){
   const lstat = await fs.lstat(cd)
   const isDirectory = lstat.isDirectory()
   if(isDirectory && cd.indexOf('node_modules') === -1 && cd.indexOf('.git') === -1){
     const list = await fs.readdir(cd)
-    const res = list.map(li=>{
-      if (cd.indexOf('definitions') > 0) {
-        return fs.readdir(cd).then(dirs=> dirs.map(f=> `${cd}/${f}` ) )
-      } else {
-        return dig(`${cd}/${li}`)
-      }
-    })
-    return await Promise.all(res)
+    const res = list.map(li=> traverse(`${cd}/${li}`) )
+    return res
   } else {
-    if(cd.indexOf("definitions") > 0){
-      return cd
-    } else {
-      return null
-    }
+    return cd
+  }
+}
+
+async function flatMap(promises){
+  promises = flatten(promises)
+  const containsPromise = promises.filter(p=> !!p.then ).length > 0
+  if(containsPromise){
+    return flatMap(await Promise.all(promises))
+  } else {
+    const paths = promises
+    return paths
   }
 }
 

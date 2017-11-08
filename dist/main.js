@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _commander2.default.version('0.0.1').option('-y --yaml [path]', 'Specify yaml path', 'crock.yaml').parse(process.argv);
 
 _thread2.default.run(_commander2.default.yaml).then(res => {
-  console.log(res.map(d => `${d[2]} ${d[0]}`).join("\n"));
+  console.log(res.map(d => `${d.filename} ${d.expr} ${d.description}`).join("\n"));
 }).catch(err => {
   console.error(err);
 });

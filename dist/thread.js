@@ -8,7 +8,7 @@ var _nodeSchedule = require('node-schedule');
 
 var _nodeSchedule2 = _interopRequireDefault(_nodeSchedule);
 
-var _definitionReader = require('./definitionReader');
+var _definition_reader = require('./definition_reader');
 
 var _slack = require('./slack');
 
@@ -19,11 +19,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 class Thread {
   static run(yaml_path) {
     return _asyncToGenerator(function* () {
-      const definitions = yield (0, _definitionReader.getDefinitions)();
+      const definitions = yield (0, _definition_reader.getDefinitions)();
       definitions.map(function (def) {
-        _nodeSchedule2.default.scheduleJob(def[0], function (_) {
-          def[1]();
-          (0, _slack.send)(def[2], yaml_path);
+        _nodeSchedule2.default.scheduleJob(def.expr, function (_) {
+          def.task();
+          (0, _slack.send)(def.filename, yaml_path);
         });
       });
       return definitions;

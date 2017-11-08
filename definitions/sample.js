@@ -1,9 +1,7 @@
-const def = [
-  "00,15,30,45 * * * * *", // sec+cron_rule
-  _=>{
-    console.log('15sec triggered')
+module.exports = {
+  filename: __filename.split("/").pop(),
+  description: "This text will be reflected to /documentation",
+  expr: "0 0 0 * * *", // Everyday 0:00'00
+  task: async function () {
   },
-  __filename.split("/")[__filename.split("/").length - 1] // filename
-]
-
-module.exports = def
+}
