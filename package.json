@@ -17,11 +17,15 @@
   "license": "MIT",
   "dependencies": {
     "@slack/client": "^3.14.1",
+    "@types/bull": "^3.3.11",
     "async-child-process": "^1.1.1",
     "await-fs": "^1.0.0",
     "babel-project-relative-import": "^2.0.1",
+    "bluebird": "^3.5.1",
     "commander": "^2.11.0",
+    "debug": "^3.1.0",
     "exec-promise": "^0.7.0",
+    "mongoose": "^5.1.3",
     "node-schedule": "^1.2.5",
     "node-yaml": "^3.1.1",
     "nodemon": "^1.12.1"

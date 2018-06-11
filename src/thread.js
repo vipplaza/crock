@@ -3,17 +3,31 @@ import { getDefinitions } from './definition_reader'
 import { send } from './slack'
 
 
-export default class Thread {
-  static async run(yaml_path){
-    const definitions = await getDefinitions()
-    definitions.map(def=> {
-      schedule.scheduleJob(def.expr, _=>{
-        def.task()
-        send(def.filename, yaml_path)
-      })
+class Thread {
+  constructor(config) {
+    if (config.mongo) {
+      const { connection, options } = config.mongo;
+      
+      this.mongo(connection, options);
+    }
+  }
+    
+  static async run(yamlPath) {
+    const definitions = await getDefinitions();
+    
+    definitions.map(definition => {
+      schedule.scheduleJob(definition.expr, () => {
+        definition.task().bind(this);
+          
+        send(definition.filename, yamlPath);
+      });
     })
 
     // TODO: Run server and show /documentation
     return definitions
   }
 }
+
+Thread.prototype.mongo = require('./mongo');
+
+export default Thread;
