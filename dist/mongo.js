@@ -9,25 +9,9 @@ const debug = require('debug')('crock:mongo');
 
 mongoose.Promise = Promise;
 
-let defaults = {
-  useMongoClient: true,
-  // Don't build indexes
-  autoIndex: false,
-  // Never stop trying to reconnect
-  reconnectTries: Number.MAX_VALUE,
-  // Reconnect every 500ms
-  reconnectInterval: 500,
-  // Maintain up to 10 socket connections
-  poolSize: 10,
-  // If not connected, return errors immediately rather than waiting for reconnect
-  bufferMaxEntries: 0
-};
-
 module.exports = (() => {
   var _ref = _asyncToGenerator(function* (connection, options) {
     const uri = mongodbUri.format(connection);
-
-    options = Object.assign(defaults, options);
 
     try {
       this.connection = yield mongoose.connect(uri, options);
