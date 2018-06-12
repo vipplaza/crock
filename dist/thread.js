@@ -22,6 +22,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 class Thread {
   constructor(config) {
+    console.log(_lodash2.default.size(config.mongo), config.mongo);
     if (_lodash2.default.size(config.mongo) > 0) {
       const { connection, options } = config.mongo;
 
@@ -37,8 +38,9 @@ class Thread {
 
       definitions.map(function (definition) {
         _nodeSchedule2.default.scheduleJob(definition.expr, function () {
-          definition.task.bind(_this);
-          definition.task();
+          const taskRunner = definition.task.bind(_this);
+
+          taskRunner();
 
           (0, _slack.send)(definition.filename, yamlPath);
         });
