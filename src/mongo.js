@@ -10,7 +10,7 @@ mongoose.Promise = Promise;
 
 module.exports = async function(connection, options) {
   const uri = mongodbUri.format(connection);
-  
+  console.log('uri: ', uri);
   try {
     this.connection = await mongoose.connect(uri, options);
     
