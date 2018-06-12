@@ -11,8 +11,9 @@ let getDefinitions = exports.getDefinitions = (() => {
     const def_paths = list.filter(function (path) {
       return path.indexOf("definitions") > 0;
     });
+
     return def_paths.map(function (def_path) {
-      return require(`${distanceFromHereToCallee}${def_path}`);
+      return require(_path2.default.join(distanceFromHereToCallee, def_path));
     });
   });
 
@@ -23,6 +24,7 @@ let getDefinitions = exports.getDefinitions = (() => {
 
 let traverse = (() => {
   var _ref2 = _asyncToGenerator(function* (cd) {
+
     const lstat = yield _awaitFs2.default.lstat(cd);
     const isDirectory = lstat.isDirectory();
     if (isDirectory && cd.indexOf('node_modules') === -1 && cd.indexOf('.git') === -1) {
@@ -64,12 +66,15 @@ var _awaitFs = require('await-fs');
 
 var _awaitFs2 = _interopRequireDefault(_awaitFs);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-const distanceFromHereToCallee = '../../../';
-
+const distanceFromHereToCallee = process.env.PWD;
 
 function flatten(array, mutable) {
   var toString = Object.prototype.toString;

@@ -1,12 +1,19 @@
+'use strict';
+
 import fs from 'await-fs'
-const distanceFromHereToCallee = '../../../'
+import path from 'path';
+
+const distanceFromHereToCallee = process.env.PWD;
+
 export async function getDefinitions(){
   const list = await flatMap(await traverse('.'))
   const def_paths = list.filter(path=> path.indexOf("definitions") > 0 )
-  return def_paths.map(def_path=> require(`${distanceFromHereToCallee}${def_path}`) )
+  
+  return def_paths.map(def_path=> require(path.join(distanceFromHereToCallee, def_path)))
 }
 
 async function traverse(cd){
+  
   const lstat = await fs.lstat(cd)
   const isDirectory = lstat.isDirectory()
   if(isDirectory && cd.indexOf('node_modules') === -1 && cd.indexOf('.git') === -1){

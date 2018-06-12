@@ -1,24 +1,25 @@
 import schedule from 'node-schedule'
 import { getDefinitions } from './definition_reader'
 import { send } from './slack'
-
+import _ from 'lodash'
 
 class Thread {
   constructor(config) {
-    if (config.mongo) {
+    if (_.size(config.mongo) > 0) {
       const { connection, options } = config.mongo;
       
       this.mongo(connection, options);
     }
   }
     
-  static async run(yamlPath) {
+  async run(yamlPath) {
     const definitions = await getDefinitions();
     
     definitions.map(definition => {
       schedule.scheduleJob(definition.expr, () => {
-        definition.task().bind(this);
-          
+        definition.task.bind(this);
+        definition.task();
+        
         send(definition.filename, yamlPath);
       });
     })

@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const mongodbUri = require('mongodb-uri');
 const Promise = require('bluebird');
 const debug = require('debug')('crock:mongo');
 
@@ -26,10 +27,10 @@ module.exports = async function(connection, options) {
   options = Object.assign(defaults, options);
   
   try {
-    this.connection = mongoose.connect(url, options);
+    this.connection = await mongoose.connect(uri, options);
     
     debug('successful connection to MongoDB using collection: [%s]', uri);
-  } catch (e) {
+  } catch (error) {
     debug('error connecting to MongoDB using connection: [%s]', uri);
     
     throw error;
