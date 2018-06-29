@@ -12,7 +12,7 @@ mongoose.Promise = Promise;
 module.exports = (() => {
   var _ref = _asyncToGenerator(function* (connection, options) {
     const uri = mongodbUri.format(connection);
-    console.log('uri: ', uri);
+
     try {
       this.connection = yield mongoose.connect(uri, options);
 

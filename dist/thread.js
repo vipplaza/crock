@@ -22,7 +22,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 class Thread {
   constructor(config) {
-    console.log(_lodash2.default.size(config.mongo), config.mongo);
     if (_lodash2.default.size(config.mongo) > 0) {
       const { connection, options } = config.mongo;
 
@@ -37,13 +36,13 @@ class Thread {
       const definitions = yield (0, _definition_reader.getDefinitions)();
 
       definitions.map(function (definition) {
-        _nodeSchedule2.default.scheduleJob(definition.expr, function () {
+        _nodeSchedule2.default.scheduleJob(definition.expr, _asyncToGenerator(function* () {
           const taskRunner = definition.task.bind(_this);
 
-          taskRunner();
+          yield taskRunner();
 
           (0, _slack.send)(definition.filename, yamlPath);
-        });
+        }));
       });
 
       // TODO: Run server and show /documentation

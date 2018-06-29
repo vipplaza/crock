@@ -2,20 +2,31 @@
 
 const _ = require('lodash');
 
+const isEmpty = function (value) {
+  return _.isEqual(value, []) || _.isEqual(value, {}) || _.isNull(value) || _.isUndefined(value) || _.isEqual(value, '') || _.isEqual(value, 0) || _.isEqual(value, '0');
+};
+
+const generateScheme = function () {
+  return isEmpty(_.get(process.env, 'USE_REPLICA_SET')) ? 'mongodb' : 'mongodb+srv';
+};
+
 module.exports = {
   mongo: {
     connection: {
-      scheme: 'mongodb',
+      scheme: generateScheme(),
       hosts: _.compact([{
         host: _.get(process.env, 'DATABASE_HOST'),
         port: _.get(process.env, 'DATABASE_PORT')
       }]),
       database: _.get(process.env, 'DATABASE_NAME'),
       username: _.get(process.env, 'DATABASE_USERNAME'),
-      password: _.get(process.env, 'DATABASE_PASSWORD')
+      password: _.get(process.env, 'DATABASE_PASSWORD'),
+      options: _.omitBy({
+        authSource: _.get(process.env, 'AUTH_SOURCE', null),
+        retryWrites: _.get(process.env, 'RETRY_WRITES', null)
+      }, isEmpty)
     },
     options: {
-      useMongoClient: _.get(process.env, 'MONGO_USE_CLIENT', true),
       // Don't build indexes
       autoIndex: _.get(process.env, 'MONGO_AUTO_INDEX', false),
       // Never stop trying to reconnect
