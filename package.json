@@ -27,13 +27,13 @@
     "exec-promise": "^0.7.0",
     "lodash": "^4.17.10",
     "mongodb-uri": "^0.9.7",
+    "mongoose": "^5.1.4",
     "node-schedule": "^1.2.5",
     "node-yaml": "^3.1.1",
     "nodemon": "^1.12.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "mongoose": "^4.13.8"
+    "babel-preset-env": "^1.6.1"
   }
 }

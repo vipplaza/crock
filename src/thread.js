@@ -5,7 +5,6 @@ import _ from 'lodash'
 
 class Thread {
   constructor(config) {
-    console.log(_.size(config.mongo), config.mongo);
     if (_.size(config.mongo) > 0) {
       const { connection, options } = config.mongo;
       
@@ -17,10 +16,10 @@ class Thread {
     const definitions = await getDefinitions();
     
     definitions.map(definition => {
-      schedule.scheduleJob(definition.expr, () => {
+      schedule.scheduleJob(definition.expr, async () => {
         const taskRunner = definition.task.bind(this);
         
-        taskRunner();
+        await taskRunner();
         
         send(definition.filename, yamlPath);
       });
