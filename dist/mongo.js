@@ -14,7 +14,7 @@ module.exports = (() => {
     const uri = mongodbUri.format(connection);
 
     try {
-      this.connection = yield mongoose.connect(uri, options);
+      this.db = yield mongoose.connect(uri, options);
 
       debug('successful connection to MongoDB using collection: [%s]', uri);
     } catch (error) {
