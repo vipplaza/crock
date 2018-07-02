@@ -12,7 +12,7 @@ module.exports = async function(connection, options) {
   const uri = mongodbUri.format(connection);
 
   try {
-    this.connection = await mongoose.connect(uri, options);
+    this.db = await mongoose.connect(uri, options);
     
     debug('successful connection to MongoDB using collection: [%s]', uri);
   } catch (error) {
